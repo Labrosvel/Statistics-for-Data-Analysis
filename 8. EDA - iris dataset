@@ -1,0 +1,36 @@
+#Loading the dataset
+data('iris')
+head(iris)
+
+#Identifying type of each variable
+str(iris)
+
+#Do summary statistics for the data and IQR for numerical data
+summary(iris)
+IQR(iris$Sepal.Length)
+IQR(iris$Sepal.Width)
+IQR(iris$Petal.Length)
+IQR(iris$Petal.Width)
+
+#Relative frequency table for nominal data
+table(Species)
+f_table_species <- table(Species)/length(Species)
+f_table_species
+
+
+#Graphical representation - EDA
+plot(iris)
+
+hist(iris$Sepal.Length, breaks = 50)
+hist(iris$Sepal.Width, breaks = 30)
+hist(iris$Petal.Length, breaks = 50)
+hist(iris$Petal.Width, breaks = 30)
+
+x1 <- iris$Sepal.Length
+x2 <- iris$Sepal.Width
+x3 <- iris$Petal.Length
+x4 <- iris$Petal.Width
+boxplot(x1,x2,x3,x4, names = c('Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width'))
+
+cor(iris[1:4])
+
