@@ -1,0 +1,42 @@
+################################################################################################
+# Mix of continuous and categorical variables
+################################################################################################
+
+# Petal length: discrete or continuous?
+print(iris$Petal.Length)
+
+# histogram
+hist(iris$Petal.Length, breaks = 50)
+# frecuency table
+table(iris$Petal.Length)
+
+# Species: discrete
+print(iris$Species)
+table(iris$Species)
+
+# Plot: mixture of discrete and continuous
+matplot(as.numeric(iris$Species), iris$Petal.Length, 
+        col="blue", pch=19, xlab = "Species", ylab="Petal length")
+
+################################################################################################
+################################################################################################
+# ggplot intro
+# see: http://www.sthda.com/english/wiki/ggplot2-essentials
+################################################################################################
+################################################################################################
+library(ggplot2)
+
+ ggplot(data = iris, mapping = aes(x=Species, y= Petal.Length)) + 
+  geom_point(col = "red") +
+  labs(x = "Species", y ="Petal length", title = "Continuous vs Categorical") + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 16)) +
+  theme(axis.text=element_text(size=12, face = "bold"),
+        axis.title=element_text(size=14,face="bold"))
+
+
+# boxplot
+ggplot(iris, aes(x=Species, y= Petal.Length)) + 
+  stat_boxplot(geom ='errorbar', width = 0.25) + 
+  geom_boxplot() 
+
+
