@@ -1,0 +1,36 @@
+# conditional distribution of an HIV test given HIV infection
+# These results resemble scenario when the test is applied to a risk group
+tab1 <- rbind(c(0.995,0.005),c(0.005,0.995))
+colnames(tab1) <- c("present","not-present")
+rownames(tab1) <- c("positive","negative")
+print(tab1)
+# print transposed table
+print(t(tab1))
+# marginal values
+margin.table(tab1,2)
+# Barplot
+barplot(t(tab1), beside = TRUE, col = c("red","blue"),
+        main = "HIV test vs HIV infection", ylim = c(0,1),
+        ylab = "Conditional relative frequency",
+        cex.axis = 1.5, cex.lab = 1.5)
+box()
+legend("center",
+       c("present","not-present"),
+       fill = c("red","blue"))
+# conditional distribution of HIV infection given HIV test result
+# These results resemble a scenario when the test is applied at random
+tab2 <- rbind(c(0.289,0.711),c(0.001,0.999))
+colnames(tab2) <- c("present","not-present")
+rownames(tab2) <- c("positive","negative")
+print(tab2)
+# marginal values
+margin.table(tab2,1)
+# Barplot
+barplot(tab2, beside = TRUE, col = c("red","green"),
+        main = "HIV infection vs HIV test", ylim = c(0,1),
+        ylab = "Conditional relative frequency",
+        cex.axis = 1.5, cex.lab = 1.5)
+box()
+legend("center",
+       c("positive","negative"),
+       fill = c("red","green"))
