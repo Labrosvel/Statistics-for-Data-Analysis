@@ -1,0 +1,110 @@
+###########################################
+# Exercise 1
+###########################################
+
+#To check the results everybody has the same seed
+set.seed(1000)
+#Simulate a population of 1000 units from a uniform random variable between 0
+#and 1, look at its histogram and compare it with the uniform probability density function
+X <- runif(1000,0,1)
+hist(X, probability = TRUE)
+x <- seq(0,1, len=100)
+points(x, dunif(x,0,1), type='l', lwd='2')
+#Compute the mean and the variance of this population and save them
+mu <-mean(X)
+mu
+sigma2 <-((1000-1)/1000)*var(X)
+sigma2
+#Sample from the population with the sample function
+#size 100
+S <- sample(X, 100, replace = FALSE)
+#Compute the sample mean and variance
+mu_hat <- mean(S)
+mu_hat
+sigma2_hat <- var(S)
+sigma2_hat
+#Repeat the sampling 100 times, save the sample's means and variances and
+#plot their histograms
+mu_hat <- rep(NA,100)
+sigma2_hat <- rep(NA,100)
+for (k in 1:100){
+  S <- sample(X, 100, replace=FALSE)
+  mu_hat[k] <- mean(S)
+  sigma2_hat[k] <- var(S)
+}
+hist(mu_hat, probability = TRUE)
+points(x, dnorm(x,mu,sqrt(sigma2)/10), type='l', lwd=2)
+hist(sigma2_hat, probability=TRUE)
+# despite sampling without replacement, the distribution
+# of the sample mean is close to normal, as you would expect
+# from the central limit theorem in the case with replacement
+# This is because N>>n, so it is almost as we have no replacement.
+
+#Explore now the sample mean behaviour when the sample size increase
+n <- 10:1000
+mean_hat <- rep(NA, length(n))
+for (k in 1:length(n)) {
+  S<-sample(X, n[k], replace=FALSE)
+  mean_hat[k]<- mean(S)
+}
+plot(n, mean_hat, type='l')
+abline(h=mu)
+# The sample mean gets closer and closer to the population mean
+# when the sample size increases.
+
+#Repeat the exercise in the case the population is simulated from a normal distribution
+#with zero mean and variance 1. Which differences can you see?
+X <- rnorm(1000,0,1)
+hist(X,probability=TRUE)
+x <- seq(-3,3,len=1000)
+points(x, dnorm(x,0,1), type='l', lwd='2')
+mu<-mean(X)
+sigma2<-((1000-1)/1000)*var(X)
+
+mu_hat<-rep(NA,100)
+sigma2_hat<-rep(NA,100)
+for (k in 1:100){
+  S<-sample(X,100,replace = FALSE)
+  mu_hat[k]<-mean(S)
+  sigma2_hat[k]<-var(S)
+}
+hist(mu_hat,probability = TRUE)
+points(x,dnorm(x,mu,sqrt(sigma2)/10),type='l', lwd=2)
+hist(sigma2_hat, probability = TRUE)
+
+hist(99*sigma2_hat/sigma2,probability = TRUE)
+z<-60:140
+points(z,dchisq(z,99),type='l', lwd=2)
+
+n <- 10:1000
+mean_hat <- rep(NA, length(n))
+for (k in 1:length(n)) {
+  S <- sample(X, n[k], replace=FALSE)
+  mean_hat[k] <- mean(S)
+}
+plot(n, mean_hat, type='l')
+abline(h=mu)
+#The main difference is now (n-1)S/sigma^2 is distributed as a chi-squared with
+#n-1 df
+
+
+#########################################################
+# Exercise 2
+#########################################################
+n <- 50
+p <- 0.5
+X <- rbinom(200, n, p)
+sample_prop <- X/n
+hist(sample_prop, probability = TRUE, main=paste('p=',p))
+z <- seq(0,1, len=1000)
+points(z, dnorm(z,mean=p, sd=sqrt(p*(1-p)/n)), type='l')
+
+n <- 50
+p <- 0.95
+X <- rbinom(200, n, p)
+sample_prop <- X/n
+hist(sample_prop, probability = TRUE, main=paste('p=',p))
+z <- seq(0,1, len=1000)
+points(z, dnorm(z,mean=p, sd=sqrt(p*(1-p)/n)), type='l')
+#The main difference is that for p so close to 1 the CLT does not kick in with
+#this small of a sample size
