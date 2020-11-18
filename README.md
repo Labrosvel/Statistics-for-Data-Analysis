@@ -18,6 +18,5 @@ In this homework we analyse 3 different problems
 
 # Homework 2
 Using probability theory and sampling statistics.
-The probability for a patient to recover after receiveing a drug is 0:5. 200 experiments are performed with 50 patients each. Simulate the outcome of these experiments using the
-rbinom function and draw a histogram of the sample proportions from the experiments. Repeat the procedure when the probability of success of the drug is 0.95 and comment
+1. The probability for a patient to recover after receiveing a drug is 0:5. 200 experiments are performed with 50 patients each. Simulate the outcome of these experiments using the rbinom function and draw a histogram of the sample proportions from the experiments. Repeat the procedure when the probability of success of the drug is 0.95 and comment
 on the difference.
