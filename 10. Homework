@@ -1,0 +1,42 @@
+x <- seq(-4,4,len=100)
+y <- dnorm(x, mean=0, sd=0.01)
+plot(x,y, type='l')
+
+#Exercise 1
+#Resistances with avg(R)=0.13 ohms and sd=0.005 ohms follow normal dist.
+pnorm(0.14, mean=0.13, sd=0.005)
+pnorm(0.12, mean=0.13, sd=0.005)
+#Probability a random wire will have 0.12ohms < R < 0.14ohms
+pnorm(0.14, mean=0.13, sd=0.005) - pnorm(0.12, mean=0.13, sd=0.005)
+#Find the confidence interval for 0.95
+qnorm(0.975, mean=0.13, sd=0.005)
+qnorm(0.025, mean=0.13, sd=0.005)
+
+#Exercise 2
+#P(recovery)=0.8 for a patient. N=20 patients with the desease
+#Y-Bin(20, 0.8)
+x <-0:25
+fy <- dbinom(x,20,0.8)
+plot(x, dbinom(x,20,0.8), type='h')
+#Probability that exactly 14 people will survive
+dbinom(14, 20, 0.8)
+#Probability that at least 10 people will survive
+1-pbinom(9,20,0.8)
+
+#Exercise 3
+#Fisherman catches approx. 10 fishes per hour (Poisson)
+#Y-Po(10)
+x <- 0:25
+probs <- dpois(x, lambda = 10)
+plot(x,probs, xlab = "x", ylab = "Probability", type = "h", lwd = 3)
+#Probability of catching exactly 4 fishes
+dpois(4,10)
+#Probability to catch at least 4 fishes
+1-ppois(3,10)
+#min time to wait for catching 4 fishes with 90% confidence
+#distrib change to lambda=1/6 and x in minutes
+t <- 0:90
+lambda = 1/6*t #fishes per min
+probs <- 1 - ppois(3,lambda)
+print(probs)
+
