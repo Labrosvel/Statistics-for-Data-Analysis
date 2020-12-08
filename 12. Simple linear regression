@@ -1,0 +1,85 @@
+##########################################
+#Girls birthweight data
+##########################################
+
+# Load the data
+dat <- read.csv('girls.csv', header=TRUE)
+head(dat)
+x = dat$Week
+y = dat$Weight
+
+# Linear regression
+attach(dat)
+lm1 <- lm(y~x)
+lm1
+summary(lm1)
+
+# Residuals and fitted values
+names(lm1)                  
+res <- lm1$residuals        
+fit <- lm1$fitted.values    
+cbind(y, fit, res)
+plot(x,y)
+abline(lm1)
+
+# In linear model variance of the errors should be constant and also
+# the fitted values and the residuals should be uncorrelated. Investigate.
+plot(fit,res)
+
+
+########################################
+#QQ-plots
+########################################
+#Explore the QQ-plot for data following normal distribution
+par(mfrow = c(3,3))
+for (i in 1:9) {
+  y <- rnorm(50)
+  qqnorm(y)
+  qqline(y)
+}
+
+par(mfrow = c(3,3))
+for (i in 1:9) {
+  y <- rnorm(15)
+  qqnorm(y)
+  qqline(y)
+}
+
+par(mfrow = c(3,3))
+for (i in 1:9) {
+  y <- rnorm(300)
+  qqnorm(y)
+  qqline(y)
+}
+
+#Exploring QQ-plots for data following other distributions (not normal)
+par(mfrow = c(3,3))
+for (i in 1:9) {
+  y <- exp(rnorm(50))
+  qqnorm(y)
+  qqline(y)
+}
+
+for (i in 1:9) {
+  y <- runif(50)
+  qqnorm(y)
+  qqline(y)
+}
+
+for (i in 1:9) {
+  y <- rcauchy(50)
+  qqnorm(y)
+  qqline(y)
+}
+
+#Watch for the difference between constant and non-constant variance
+par(mfrow=c(1,1))
+plot(1:50, rnorm(50))
+plot(1:50, (1:50)*rnorm(50))
+
+
+
+
+
+
+
