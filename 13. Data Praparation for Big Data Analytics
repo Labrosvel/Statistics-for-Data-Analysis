@@ -1,0 +1,143 @@
+#################################################
+# Data Preparation in Big Data Analytics process
+#################################################
+
+#************************************
+  # Getting started
+#************************************
+# Load the data into dataframes
+Shopping <- read.csv('Shopping.csv')
+Employee <- read.csv('Employee.csv')
+Vitals <- read.csv('Vitals.csv')
+# Invoke the missing value to 'Employee' in 1st row 2nd column manually
+fix(Employee)
+# print vitals df without displaying any decimals
+print(vitals, digits=0)
+
+#************************************
+# Missing values
+#************************************
+# a. Identify the row and column of the missing value in 'Employee' df 
+rowSums(is.na(Employee))
+colSums(is.na(Employee))
+# b. Display the records with missing values in 'Employee' df
+complete.cases(Employee)
+# c. Create new df 'Employee2' by omitting missing values
+Employee2 <- na.omit(Employee)
+head(Employee2[,1:3]) # Check the result is valid
+head(Employee[,1:3]) # comparing the above result with the original one
+# d. Compute descr.stats for 'Employee' and for 'Employee2' and compare
+min(Employee$Age)
+max(Employee$Age)
+mean(Employee$Age)
+sd(Employee$Age)
+min(Employee2$Age)
+max(Employee2$Age)
+mean(Employee2$Age)
+sd(Employee2$Age)
+
+mean(na.omit(Employee$Age))
+
+#***********************************
+# Creating New Variables
+#***********************************
+# a.Each employee in Employee got a salary increase of 7%. Add two columns in 
+# the dataframe Employee, one called Increase, which contains the value of the 
+# increase, and another called NewSalary, which contains the salary of each employee 
+# after the increase.
+Employee$Increase <- 0.07*Employee$Salary
+Employee$NewSalary <- Employee$Salary + Employee$Increase
+# b. Each employee in dataframe Employee2 that you created in Question 3 got a salary 
+# increase of 3%. Do the same as 4(a) for Employee 2.
+Employee2$Increase <- 0.03*Employee2$Salary
+Employee2$NewSalary <- Employee2$Salary + Employee2$Increase
+# c. Calculate the absolute value of the difference between the mean of the NewSalary 
+# attribute in Employee and the mean of the NewSalary in Employee2
+abs(mean(Employee$NewSalary)-mean(Employee2$NewSalary))
+
+#*********************************
+# Sorting data
+#*********************************
+# Create a new dataframe Employee3, which is the same as the Employee dataframe 
+# but is sorted with respect to Age in decreasing order, breaking ties with Salary 
+# in increasing order, and contains the missing values first.
+Employee3 <- head(Employee[order(-Employee$Age, Employee$Salary, na.last=FALSE),])  
+
+#*****************************************
+# Identifying and removing duplicate data
+#******************************************
+# a. Print the position of all duplicate elements in the attribute Age of Employee
+duplicated(Employee$Age)
+# b. Create a dataframe Uniq_Age containing only records with unique values in the 
+# attribute Age of Employee.
+Uniq_Age <- Employee[!duplicated(Employee$Age),]
+# c. Create a vector Uniq_Age_vec containing only the unique values of the attribute 
+# Age of Employee
+Uniq_Age_vec <- unique(Employee$Age)
+
+#*******************************************
+# Data Filtering
+#*******************************************
+# (a) Create a new dataframe Mul_con1 containing only the records of Employee with 
+# Age lower than 40 and Gender equal to Male, using which().
+Mul_con1 <- Employee[which(Employee$Age <40 & Employee$Gender == 'Male'),]
+head(Mul_con1)
+# (b) Create a new dataframe containing the Emp_Id and Age values of each record in 
+# Employee with Age>=40 or Age<20.
+new_df <- subset(Employee, Age>=40 | Age<20, select=c('Emp_Id','Age'))
+
+#*********************************************
+# Conditional processing
+#*********************************************
+Salary_group <- ifelse(Employee$Salary>=50000, 'High', ifelse(Employee$Salary>20000, 
+                                                              'Medium', 'Low'))
+Salary_group
+
+#*********************************************
+# Modifying variables
+#*********************************************
+Shopping<- read.csv('Shopping.csv')
+str(Shopping)
+# b) Create a new dataframe Sub_shop with the following attributes of Shopping:
+# "Brand", "Safety", "Look."
+Sub_shop <- Shopping[c('Brand','Safety','Look')]
+Sub_shop
+# c) Create a new dataframe Sub_shop2 with all attributes of Shopping except the 
+# attribute with ids (indexes) 4 and 6.
+Sub_shop2 <- Shopping[c(-4,-6)]
+Sub_shop2
+# d) Execute fix(Sub_shop). Click on an attribute name and Select Change Name. 
+# Then type a new name. Click quit and then execute fix(Sub_shop) again. What do 
+# you observe?
+fix(Sub_shop)
+
+#***********************************************************
+# Functions for removing whitespace and string substitution
+#***********************************************************
+phrase <- ' Some text to test functions in R   '
+# b) Remove the whitespace characters from phrase
+trimws(phrase)
+# c) Change phrase to "Something to test functions in R" with a single command
+substr(phrase, 2, 10)
+
+#***********************************************************
+# Combining Datasets
+#***********************************************************
+# a) Create a new dataframe emp1 containing the first and last record of Employees. 
+# Assume that you do not know the index of the last record.
+emp1 <- rbind(Employee[1,], Employee[dim(Employee)[1],])
+emp1
+# b) Execute typeof(Employee$Travel). What do you observe?
+typeof(Employee$Travel)
+# c) Create a new dataframe emp2 containing the first and last attribute of Employees.
+# Assume that you do not know the index of the last attribute.
+emp2 <- cbind(Employee[,1], as.character(Employee[,dim(Employee)[2]]))
+emp2
+# d) Create a new dataframe emp3 with two rows: [Emp_Id=10212, New=1] and 
+# [Emp_Id=10188,New=1]. Merge emp1 and emp3.
+emp3 <- data.frame(Emp_Id=c(10212,10188), New=c(1,1))
+merge(emp1,emp3, by=c('Emp_Id'))
+
+
+
+
